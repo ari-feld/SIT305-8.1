@@ -11,7 +11,7 @@ public class RetrofitClient {
     private static final String BASE_URL =
             "https://api.clarifai.com/v2/ext/openai/v1/";
 
-    private static final String API_KEY = "348a2a70374142b2a08a0555c4fda0c2";
+    private static final String API_KEY = ""; // ADD API Key
 
     private static ChatApi api;
 
