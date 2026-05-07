@@ -11,10 +11,17 @@
         android:background="#DCF8C6"
         android:padding="10dp">
 
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/sym_def_app_icon"
+            android:layout_marginBottom="4dp"/>
+
         <TextView
             android:id="@+id/tvMessage"
             android:text="User message"
             android:textSize="16sp"
+            android:layout_marginHorizontal="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

@@ -1,7 +1,7 @@
 package com.example.a81.chat;
 
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +33,7 @@ public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "CHAT_DEBUG";
     RecyclerView recyclerView;
     EditText etMessage;
-    Button btnSend;
+    ImageButton btnSend;
 
     ChatAdapter adapter;
     List<MessageEntity> messageList = new ArrayList<>();
@@ -56,7 +56,12 @@ public class ChatActivity extends AppCompatActivity {
         db = AppDatabase.getInstance(this);
 
         // Recycler setup
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(this);
+
+        layoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new ChatAdapter(messageList);
         recyclerView.setAdapter(adapter);
 
@@ -94,14 +99,19 @@ public class ChatActivity extends AppCompatActivity {
     // LOAD MESSAGES FROM ROOM
     // =========================
     private void loadMessages() {
+
         new Thread(() -> {
 
-            List<MessageEntity> data = db.messageDao().getAll();
+            List<MessageEntity> data =
+                    db.messageDao().getMessagesForUser(username);
 
             runOnUiThread(() -> {
+
                 messageList.clear();
                 messageList.addAll(data);
+
                 adapter.notifyDataSetChanged();
+
                 scrollToBottom();
             });
 
@@ -146,7 +156,7 @@ public class ChatActivity extends AppCompatActivity {
                             .message.content;
 
                     MessageEntity botMsg = new MessageEntity();
-                    botMsg.username = "Bot";
+                    botMsg.username = username;
                     botMsg.message = reply;
                     botMsg.timestamp = System.currentTimeMillis();
                     botMsg.isUser = false;
